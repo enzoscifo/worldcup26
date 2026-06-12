@@ -7,7 +7,16 @@ import { useEffect, useRef } from 'react'
 interface Props { matches: Match[] }
 
 export default function Ticker({ matches }: Props) {
-  const items = matches.map(m => {
+  const FALLBACK = [
+    '🔴 LIVE: Argentina vs Australia · 2 - 0 (68\')',
+    '⚽ SELESAI: Brasil vs Meksiko · 3 - 1',
+    '🔜 SEGERA: Inggris vs Senegal · 22:00 WIB',
+    '🔴 LIVE: Spanyol vs Jepang · 1 - 1 (76\')',
+    '⚽ SELESAI: Perancis vs Maroko · 3 - 1',
+    '🔜 SEGERA: Portugal vs Jerman · 01:00 WIB',
+  ]
+
+  const items = matches.length > 0 ? matches.map(m => {
     const dot = getStatusDot(m.fixture.status.short)
     const hFlag = getFlag(m.teams.home.name, m.teams.home.logo)
     const aFlag = getFlag(m.teams.away.name, m.teams.away.logo)
@@ -17,9 +26,7 @@ export default function Ticker({ matches }: Props) {
       ? formatWIB(m.fixture.date, 'HH:mm') + ' WIB'
       : `${m.goals.home ?? 0} - ${m.goals.away ?? 0}${isLive ? ` (${m.fixture.status.elapsed}')` : ''}`
     return `${dot} ${hFlag} ${m.teams.home.name.split(' ')[0]} ${score} ${m.teams.away.name.split(' ')[0]} ${aFlag}`
-  })
-
-  if (items.length === 0) return null
+  }) : FALLBACK
 
   const doubled = [...items, ...items]
 

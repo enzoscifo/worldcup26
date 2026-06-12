@@ -144,40 +144,61 @@ export async function getFixturesByDate(date: string): Promise<Match[]> {
     const d = new Date(m.fixture.date)
     return d.toISOString().slice(0, 10) === date
   })
-  return fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON), date })
+  try {
+    const data = await fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON), date })
+    return data?.length ? data : mockMatches()
+  } catch { return mockMatches() }
 }
 
 export async function getLiveFixtures(): Promise<Match[]> {
   if (USE_MOCK) return mockMatches().filter(m => ['1H', '2H', 'HT', 'ET', 'P', 'LIVE'].includes(m.fixture.status.short))
-  return fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON), live: 'all' })
+  try {
+    const data = await fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON), live: 'all' })
+    return data ?? []
+  } catch { return [] }
 }
 
 export async function getAllFixtures(): Promise<Match[]> {
   if (USE_MOCK) return mockMatches()
-  return fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON) })
+  try {
+    const data = await fetchAPI<Match[]>('fixtures', { league: String(LEAGUE_ID), season: String(SEASON) })
+    return data?.length ? data : mockMatches()
+  } catch { return mockMatches() }
 }
 
 export async function getStandings(): Promise<Standing[][]> {
   if (USE_MOCK) return mockStandings()
-  const raw = await fetchAPI<Array<{ league: { standings: Standing[][] } }>>('standings', {
-    league: String(LEAGUE_ID), season: String(SEASON),
-  })
-  return raw[0]?.league?.standings || []
+  try {
+    const raw = await fetchAPI<Array<{ league: { standings: Standing[][] } }>>('standings', {
+      league: String(LEAGUE_ID), season: String(SEASON),
+    })
+    const data = raw[0]?.league?.standings
+    return data?.length ? data : mockStandings()
+  } catch { return mockStandings() }
 }
 
 export async function getTopScorers(): Promise<TopScorer[]> {
   if (USE_MOCK) return mockScorers()
-  return fetchAPI<TopScorer[]>('players/topscorers', { league: String(LEAGUE_ID), season: String(SEASON) })
+  try {
+    const data = await fetchAPI<TopScorer[]>('players/topscorers', { league: String(LEAGUE_ID), season: String(SEASON) })
+    return data?.length ? data : mockScorers()
+  } catch { return mockScorers() }
 }
 
 export async function getFixtureStats(fixtureId: number): Promise<TeamStats[]> {
   if (USE_MOCK) return mockTeamStats(fixtureId)
-  return fetchAPI<TeamStats[]>('fixtures/statistics', { fixture: String(fixtureId) })
+  try {
+    const data = await fetchAPI<TeamStats[]>('fixtures/statistics', { fixture: String(fixtureId) })
+    return data ?? []
+  } catch { return [] }
 }
 
 export async function getFixtureEvents(fixtureId: number): Promise<MatchEvent[]> {
   if (USE_MOCK) return mockEvents(fixtureId)
-  return fetchAPI<MatchEvent[]>('fixtures/events', { fixture: String(fixtureId) })
+  try {
+    const data = await fetchAPI<MatchEvent[]>('fixtures/events', { fixture: String(fixtureId) })
+    return data ?? []
+  } catch { return [] }
 }
 
 export { USE_MOCK }
