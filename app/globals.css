@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { background-color: #0d1117; color: #e6edf3; }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Barlow Condensed', 'Impact', system-ui, sans-serif;
+  }
+  .animate-ticker {
+    animation: ticker 40s linear infinite;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .scrollbar-hide { scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+}
