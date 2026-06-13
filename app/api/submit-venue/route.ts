@@ -31,6 +31,16 @@ export async function POST(request: Request) {
     }
   }
 
+  // Custom city validation
+  const isNewCity = body.city === 'Lainnya'
+  if (isNewCity && !body.cityCustom?.trim()) {
+    return NextResponse.json(
+      { success: false, message: 'Nama kota baru wajib diisi' },
+      { status: 400 }
+    )
+  }
+  const cityFinal = isNewCity ? body.cityCustom.trim() : body.city
+
   // Honeypot anti-spam
   if (body.website) {
     return NextResponse.json({ success: true, message: 'Terkirim' }) // silently drop
@@ -51,12 +61,12 @@ export async function POST(request: Request) {
   // Compose moderation email
   const emailBody = `
 SUBMISSION VENUE NOBAR BARU — Perlu Moderasi
-
+${isNewCity ? '\n🆕🆕🆕 USULAN KOTA BARU: ' + cityFinal.toUpperCase() + ' 🆕🆕🆕\n' : ''}
 ═══════════════════════════════════
 📍 DETAIL VENUE
 ═══════════════════════════════════
 Nama Venue : ${body.venueName}
-Kota       : ${body.city}
+Kota       : ${cityFinal}${isNewCity ? ' (KOTA BARU — belum ada di direktori)' : ''}
 Alamat     : ${body.address}
 Tipe       : ${body.type}
 Biaya      : ${body.isFree === 'true' ? 'GRATIS' : 'Berbayar / Min. Order'}
@@ -73,8 +83,11 @@ Kontak  : ${body.submitterContact}
 
 ═══════════════════════════════════
 ✅ CARA APPROVE:
-Tambahkan venue ini ke lib/nobar-data.ts
-lalu git push (auto-deploy via Vercel)
+${isNewCity ? `1. Tambahkan kota baru ke CITY_LIST di lib/nobar-data.ts:
+   { slug: '${cityFinal.toLowerCase().replace(/\s+/g, '-')}', name: '${cityFinal}', emoji: '🏙️', province: '...', description: '...' }
+2. Tambahkan venue ke NOBAR_VENUES dengan city: '${cityFinal.toLowerCase().replace(/\s+/g, '-')}'
+3. git push (auto-deploy via Vercel)` : `Tambahkan venue ini ke NOBAR_VENUES di lib/nobar-data.ts
+lalu git push (auto-deploy via Vercel)`}
 ═══════════════════════════════════
 Dikirim dari worldcup26.my.id/nobar/tambah
 `.trim()
@@ -85,7 +98,7 @@ Dikirim dari worldcup26.my.id/nobar/tambah
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: accessKey,
-        subject: `[MODERASI] Venue Nobar Baru: ${body.venueName} (${body.city})`,
+        subject: `[MODERASI]${isNewCity ? ' 🆕 KOTA BARU +' : ''} Venue Nobar: ${body.venueName} (${cityFinal})`,
         from_name: 'WorldCup26 Nobar Finder',
         email: MODERATION_EMAIL,
         message: emailBody,

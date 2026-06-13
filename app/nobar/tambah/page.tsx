@@ -18,7 +18,7 @@ export default function TambahVenuePage() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const [form, setForm] = useState({
-    venueName: '', city: '', address: '', type: '',
+    venueName: '', city: '', cityCustom: '', address: '', type: '',
     isFree: 'true', openTime: '', description: '',
     submitterName: '', submitterContact: '',
     website: '', // honeypot
@@ -140,7 +140,7 @@ export default function TambahVenuePage() {
                 {CITY_LIST.map(c => (
                   <option key={c.slug} value={c.name}>{c.emoji} {c.name}</option>
                 ))}
-                <option value="Lainnya">🗺️ Kota Lainnya</option>
+                <option value="Lainnya">🗺️ Kota Lainnya (usulkan baru)</option>
               </select>
             </div>
             <div>
@@ -156,6 +156,20 @@ export default function TambahVenuePage() {
               </select>
             </div>
           </div>
+
+          {form.city === 'Lainnya' && (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+              <label className={labelCls}>Nama Kota Baru *</label>
+              <input
+                required type="text" placeholder="contoh: Pontianak"
+                value={form.cityCustom} onChange={e => update('cityCustom', e.target.value)}
+                className={inputCls}
+              />
+              <p className="text-[11px] text-green-700 mt-2">
+                💡 Kota baru akan ditambahkan ke direktori setelah moderasi disetujui — kamu jadi pelopor nobar di kotamu!
+              </p>
+            </div>
+          )}
 
           <div>
             <label className={labelCls}>Alamat Lengkap *</label>
