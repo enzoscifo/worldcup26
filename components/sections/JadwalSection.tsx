@@ -76,43 +76,43 @@ export default function JadwalSection() {
             className={cn(
               'px-3 py-1.5 rounded-lg text-xs font-bold border transition-all',
               filter === f.key
-                ? 'bg-red-600 border-red-600 text-white'
-                : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
+                ? 'bg-red-600 border-red-600 text-stone-900'
+                : 'bg-stone-100 border-stone-300 text-stone-500 hover:text-green-800'
             )}
           >
             {f.label}
           </button>
         ))}
-        <div className="ml-auto flex items-center gap-2 text-[10px] text-slate-500">
-          <button onClick={() => mutate()} className="hover:text-slate-300 transition-colors">↻ Refresh</button>
+        <div className="ml-auto flex items-center gap-2 text-[10px] text-stone-400">
+          <button onClick={() => mutate()} className="hover:text-stone-600 transition-colors">↻ Refresh</button>
           <span>· Semua waktu WIB (UTC+7)</span>
         </div>
       </div>
 
       {/* Match list */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
         {isLoading ? (
-          <div className="divide-y divide-slate-800">
+          <div className="divide-y divide-stone-100">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="px-4 py-3 flex gap-3 animate-pulse">
-                <div className="w-8 h-8 bg-slate-800 rounded" />
+                <div className="w-8 h-8 bg-stone-100 rounded" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3 bg-slate-800 rounded w-1/3" />
-                  <div className="h-2 bg-slate-800 rounded w-1/4" />
+                  <div className="h-3 bg-stone-100 rounded w-1/3" />
+                  <div className="h-2 bg-stone-100 rounded w-1/4" />
                 </div>
-                <div className="w-16 h-6 bg-slate-800 rounded" />
+                <div className="w-16 h-6 bg-stone-100 rounded" />
               </div>
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="py-12 text-center text-slate-500">
+          <div className="py-12 text-center text-stone-400">
             <div className="text-3xl mb-2">📭</div>
             <div>Tidak ada pertandingan untuk filter ini</div>
           </div>
         ) : (
           Array.from(grouped.entries()).map(([date, dayMatches]) => (
             <div key={date}>
-              <div className="px-4 py-2 bg-slate-800/50 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-800">
+              <div className="px-4 py-2 bg-stone-50 text-xs font-bold text-stone-500 uppercase tracking-widest border-b border-stone-200">
                 {date}
               </div>
               {dayMatches.map(m => (

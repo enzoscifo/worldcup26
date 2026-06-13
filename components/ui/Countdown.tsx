@@ -26,7 +26,7 @@ export default function Countdown() {
   if (t.done) {
     return (
       <div className="inline-flex items-center gap-3 bg-red-600 rounded-2xl px-8 py-5">
-        <span className="font-display text-3xl font-black text-white tracking-tight">🔴 PIALA DUNIA SEDANG BERLANGSUNG!</span>
+        <span className="font-display text-3xl font-black text-stone-900 tracking-tight">🔴 PIALA DUNIA SEDANG BERLANGSUNG!</span>
       </div>
     )
   }
@@ -39,14 +39,14 @@ export default function Countdown() {
   ]
 
   return (
-    <div className="inline-flex gap-3 bg-slate-900 border border-slate-700 rounded-2xl px-8 py-5 mb-10">
+    <div className="inline-flex gap-3 bg-white border border-stone-300 rounded-2xl px-8 py-5 mb-10">
       {units.map((u, i) => (
         <div key={u.label} className="flex items-start gap-3">
           <div className="text-center min-w-[56px]">
-            <div className="font-display text-5xl font-black text-white leading-none tabular-nums">
+            <div className="font-display text-5xl font-black text-stone-900 leading-none tabular-nums">
               {String(u.val).padStart(2, '0')}
             </div>
-            <div className="text-[10px] text-slate-400 font-semibold tracking-widest uppercase mt-1">{u.label}</div>
+            <div className="text-[10px] text-stone-500 font-semibold tracking-widest uppercase mt-1">{u.label}</div>
           </div>
           {i < 3 && (
             <div className="font-display text-3xl font-black text-red-500 pt-1 animate-pulse">:</div>

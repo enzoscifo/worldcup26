@@ -160,7 +160,7 @@ export interface Poll {
 export interface NobarVenue {
   id: string
   name: string
-  city: string
+  city: string // city slug e.g. 'yogyakarta'
   address: string
   type: 'outdoor' | 'cafe' | 'resto' | 'mall' | 'komunitas'
   icon: string
@@ -169,4 +169,17 @@ export interface NobarVenue {
   openTime: string
   mapsUrl: string
   phone?: string
+}
+
+// Venue submission (pending moderation)
+export interface VenueSubmission {
+  venueName: string
+  city: string
+  address: string
+  type: string
+  isFree: string
+  openTime: string
+  description: string
+  submitterName: string
+  submitterContact: string
 }

@@ -15,7 +15,7 @@ export default function LiveClock() {
   }, [])
 
   return (
-    <span className="font-display text-lg font-black text-amber-400 tabular-nums tracking-tight min-w-[50px]">
+    <span className="font-display text-lg font-black text-green-700 tabular-nums tracking-tight min-w-[50px]">
       {time || '--:--'}
     </span>
   )

@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#0d1117] text-slate-100 font-sans antialiased">
+      <body className="bg-[#FAFAF9] text-stone-900 font-sans antialiased">
         {children}
       </body>
     </html>

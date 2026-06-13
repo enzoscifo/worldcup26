@@ -31,13 +31,13 @@ export default function Ticker({ matches }: Props) {
   const doubled = [...items, ...items]
 
   return (
-    <div className="bg-red-700 overflow-hidden border-b-2 border-amber-500 sticky top-0 z-50">
+    <div className="bg-green-800 overflow-hidden border-b-2 border-green-600 sticky top-0 z-50">
       <div className="flex">
         <div className="flex animate-ticker whitespace-nowrap">
           {doubled.map((item, i) => (
-            <span key={i} className="inline-flex items-center px-8 py-1.5 text-sm font-semibold text-white tracking-wide shrink-0">
+            <span key={i} className="inline-flex items-center px-8 py-1.5 text-sm font-semibold text-stone-900 tracking-wide shrink-0">
               {item}
-              <span className="mx-6 text-amber-400 opacity-60">·</span>
+              <span className="mx-6 text-green-700 opacity-60">·</span>
             </span>
           ))}
         </div>
